@@ -58,8 +58,18 @@ function App() {
           <label key={todo.text} style={{ display: "block" }}>
             <input
               type="checkbox"
-              checked={todo.checked}
-              onChange={() => {}}
+              checked={Boolean(todo.checked)}
+              onChange={async () => {
+                /* Models in DataStore are immutable. To update a record you must use the copyOf function
+ to apply updates to the item’s fields rather than mutating the instance directly */
+                await DataStore.save(
+                  Todo.copyOf(todo, (item) => {
+                    // Update the values on {item} variable to update DataStore entry
+                    item.checked = !item.checked;
+                  })
+                );
+                queryTodos();
+              }}
             ></input>
             {todo.name}
             <button
