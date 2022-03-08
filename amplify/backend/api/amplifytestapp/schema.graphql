@@ -3,6 +3,6 @@
       id: ID!
       name: String!
       description: String
-      checked: Boolean
+      testField: String
   }
   
